@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/png" href="https://www.pngkit.com/png/full/335-3350957_what-is-motor-insurance-icon-transparent.png"/>
+
+    <title>Car Price Predictor</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+</head>
+<body style="background-color: white">
+<section class="head">
+    <div class="head-panel">
+<!--   <img src="https://static.wixstatic.com/media/fec686_9cfc1444668b4ae9bd77f2c9e2fa28ed~mv2.gif" alt="" id="img-home">-->
+    <h1 class="head__title">CAR<br><span class="head__title-color">PRICE</span><br>PREDICTOR<br></h1>
+</div>
+
+
+</section>
+<section class="home bd-grid" id="home">
+              <div class="home__data">
+                  <br>
+                  <h1 class="home__title">Hello,<br>Welcome to <span class="home__title-color"><br>__Price Predictor__</span></h1>
+
+                  <button class="addMore" title="You need basic details of the car you want to calculate the price for such as how much km it is driven, what is its fuel type, what is its company and model name, and how much year it is old. Once you have all this information in your hand you are ready to calculate your car's price.">More</button>
+
+
+<!--                    <img src="https://media0.giphy.com/media/LOX3iq10y3nUQ6cVRu/giphy.gif?cid=6c09b952jzbtdwmp8umd5quk2vficmb1413tuqqw9032qosi&rid=giphy.gif&ct=s" alt="" id="img-home">-->
+<!--                  <button id="button-home">Contact</button>-->
+              </div>
+
+<!--              <div class="home__social">-->
+<!--                  <a href="" class="home__social-icon"><i class='bx bxl-linkedin'></i><f /a>-->
+<!--                  <a href="" class="home__social-icon"><i class='bx bxl-behance' ></i></a>-->
+<!--                  <a href="" class="home__social-icon"><i class='bx bxl-github' ></i></a>-->
+<!--              </div>-->
+
+              <div class="home__img">
+                 <img src="https://img.freepik.com/premium-vector/happy-young-man-leasing-car-illustration_179970-626.jpg?w=2000" alt="" id="img-home">
+
+              </div>
+          </section>
+<div class="container">
+    <div class="row">
+        <div class="card mt-50" style="width: 100%; height: 100%">
+            <div class="card-header" style="text-align: center">
+                <h1>You can enter your car details here</h1>
+            </div>
+            <div class="card-body">
+                <div class="col-12" style="text-align: center">
+                    <h5>This app predicts the price of a car you want to sell<br> Try filling the details below: </h5>
+                </div>
+<!--                <div>-->
+<!--                    <img src  = "static/css/cars.gif" id = "hom2" text-align = "center" >-->
+<!--                </div>-->
+                <br>
+                <form class="form">
+                    <div>
+                        <img src="https://www.carmigo.io/wp-content/uploads/sites/2/2022/08/ezgif.com-gif-maker-16.gif" alt="" id="img-form">
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align:center">
+                        <label><b>Select the company:</b> </label><br>
+                        <select class="selectpicker form-control" id="company" name="company" required="1"
+                                onchange="load_car_models(this.id,'car_models')">
+                            {% for company in companies %}
+                            <option value="{{ company }}">{{ company }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select the model:</b> </label><br>
+                        <select class="selectpicker form-control" id="car_models" name="car_models" required="1">
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select Year of Purchase:</b> </label><br>
+                        <select class="selectpicker form-control" id="year" name="year" required="1">
+                            {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select the Fuel Type:</b> </label><br>
+                        <select class="selectpicker form-control" id="fuel_type" name="fuel_type" required="1">
+                            {% for fuel in fuel_types %}
+                            <option value="{{ fuel }}">{{ fuel }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Enter the Number of Kilometres that the car has travelled:</b> </label><br>
+                        <input type="text" class="form-control" id="kilo_driven" name="kilo_driven"
+                               placeholder="Enter the kilometres driven ">
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <button  class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+                    </div>
+                </form>
+
+
+                <div class="row">
+                    <div class="col-12" style="text-align: center">
+                        <h4><span id="prediction"></span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+  <p class="footer__title">PREDICTOR</p>
+<!--  <div class="footer__social">-->
+<!--      <a href="#" class="footer__icon"><i class='bx bxl-facebook' ></i></a>-->
+<!--      <a href="#" class="footer__icon"><i class='bx bxl-instagram' ></i></a>-->
+<!--      <a href="#" class="footer__icon"><i class='bx bxl-twitter' ></i></a>-->
+<!--  </div>-->
+     <img src="https://www.pngkit.com/png/full/335-3350957_what-is-motor-insurance-icon-transparent.png" alt="" id="img-home-bottom">
+  <p> We Predict What You Deserve!!! </p>
+</footer>
+<script>
+
+
+    function fetchPosts(){
+        const response = fetch('https://www.acko.com/rto/how-to-check-vehicle-owner-details-by-number-plate/')
+
+
+
+
+
+
+    function load_car_models(company_id,car_model_id)
+    {
+        var company=document.getElementById(company_id);
+        var car_model= document.getElementById(car_model_id);
+        console.log(company.value);
+        car_model.value="";
+        car_model.innerHTML="";
+        {% for company in companies %}
+            if( company.value == "{{ company }}")
+            {
+                {% for model in car_models %}
+                    {% if company in model %}
+
+                        var newOption= document.createElement("option");
+                        newOption.value="{{ model }}";
+                        newOption.innerHTML="{{ model }}";
+                        car_model.options.add(newOption);
+                    {% endif %}
+                {% endfor %}
+            }
+        {% endfor %}
+    }
+
+    function form_handler(event) {
+        event.preventDefault(); // Don't submit the form normally
+    }
+    function send_data()
+    {
+        document.querySelector('form').addEventListener("submit",form_handler);
+
+        var fd=new FormData(document.querySelector('form'));
+
+        var xhr= new XMLHttpRequest({mozSystem: true});
+
+        xhr.open('POST','/predict',true);
+        document.getElementById('prediction').innerHTML="Wait! Predicting Price.....";
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                document.getElementById('prediction').innerHTML="Prediction: ₹"+xhr.responseText;
+
+            }
+        };
+
+        xhr.onload= function(){};
+
+        xhr.send(fd);
+    }
+</script>
+
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
